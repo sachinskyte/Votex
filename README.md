@@ -4,20 +4,6 @@
   <h1>VoteX</h1>
   <p><strong>Secure Blockchain Voting for Indian General Elections 2025</strong></p>
   
-  <div class="live-demo-banner" style="margin: 30px 0;">
-    <a href="https://votex-eci.vercel.app" target="_blank">
-      <img src="https://img.shields.io/badge/LIVE_DEMO-votex--eci.vercel.app-8B5CF6?style=for-the-badge&logo=vercel" alt="Live Demo" width="300">
-    </a>
-  </div>
-  
-  <div>
-    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/sachinskyte/Votex">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/sachinskyte/Votex">
-    <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/sachinskyte/Votex">
-    <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/sachinskyte/Votex">
-    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/sachinskyte/Votex">
-  </div>
-</div>
  
 ## Overview
 
