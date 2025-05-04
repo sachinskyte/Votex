@@ -14,6 +14,7 @@ import useBlockchain from '@/hooks/useBlockchain';
 import SettingsDropdown from '@/components/dashboard/SettingsDropdown';
 import useDemoMode from '@/hooks/useDemoMode';
 import ElectionsList from '@/components/ElectionsList';
+import BlockchainStats from '@/components/dashboard/BlockchainStats';
 
 // Demo data for the dashboard
 const demoData = {
@@ -204,6 +205,9 @@ const Dashboard = () => {
               <h2 className="text-xl font-semibold text-[#6D28D9] mb-4">Active Elections</h2>
               <ElectionsList />
             </div>
+            
+            {/* Blockchain Stats Dashboard */}
+            <BlockchainStats refreshInterval={10000} />
             
             {/* Security Features */}
             <Card className="border border-[#6D28D9]/30 bg-[#0D0D0D] shadow-[0_0_10px_rgba(109,40,217,0.1)]">

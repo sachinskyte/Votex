@@ -15,6 +15,7 @@ import Support from "./pages/Support";
 import Candidates from "./pages/Candidates";
 import Admin from "./pages/Admin";
 import TechnicalSupport from "./pages/TechnicalSupport";
+import AuthRequired from "./components/AuthRequired";
 
 const queryClient = new QueryClient();
 
@@ -33,15 +34,31 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={
+                <AuthRequired>
+                  <Dashboard />
+                </AuthRequired>
+              } />
               <Route path="/verify" element={<OtpVerification />} />
-              <Route path="/vote" element={<VotePage />} />
+              <Route path="/vote" element={
+                <AuthRequired>
+                  <VotePage />
+                </AuthRequired>
+              } />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/how-to-vote" element={<HowToVote />} />
               <Route path="/support" element={<Support />} />
               <Route path="/technical-support" element={<TechnicalSupport />} />
-              <Route path="/candidates/:electionId" element={<Candidates />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/candidates/:electionId" element={
+                <AuthRequired>
+                  <Candidates />
+                </AuthRequired>
+              } />
+              <Route path="/admin" element={
+                <AuthRequired>
+                  <Admin />
+                </AuthRequired>
+              } />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

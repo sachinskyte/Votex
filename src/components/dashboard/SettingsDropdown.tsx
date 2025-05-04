@@ -7,11 +7,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Settings, Shield } from 'lucide-react';
+import { Settings, Shield, LogOut, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import useDemoMode from '@/hooks/useDemoMode';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
 
 interface SettingsDropdownProps {
   className?: string;
@@ -21,6 +22,7 @@ const SettingsDropdown = ({ className }: SettingsDropdownProps) => {
   const { toast } = useToast();
   const { isDemoMode, toggleDemoMode } = useDemoMode();
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleDemoToggle = () => {
     toggleDemoMode();
@@ -34,6 +36,14 @@ const SettingsDropdown = ({ className }: SettingsDropdownProps) => {
   
   const handleAdminAccess = () => {
     navigate('/admin');
+  };
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  const handleRefreshDashboard = () => {
+    window.location.reload();
   };
 
   return (
@@ -50,13 +60,19 @@ const SettingsDropdown = ({ className }: SettingsDropdownProps) => {
         <DropdownMenuItem onClick={handleDemoToggle}>
           {isDemoMode ? "Disable Demo Mode" : "Enable Demo Mode"}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => window.location.reload()}>
+        <DropdownMenuItem onClick={handleRefreshDashboard}>
+          <RefreshCw className="h-4 w-4 mr-2" />
           Refresh Dashboard
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleAdminAccess} className="text-[#6D28D9] font-medium">
           <Shield className="h-4 w-4 mr-2" />
           Admin Access
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+          <LogOut className="h-4 w-4 mr-2" />
+          Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

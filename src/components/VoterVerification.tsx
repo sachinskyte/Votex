@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,17 @@ const VoterVerification = () => {
   const [error, setError] = useState('');
   const [debugOtp, setDebugOtp] = useState<number | null>(null);
   const [verified, setVerified] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+
+  // Check if already verified - to prevent repeated verification prompts
+  useEffect(() => {
+    const storedVoterId = localStorage.getItem('voterId');
+    const isVerified = localStorage.getItem('voter_verified') === 'true';
+    
+    if (storedVoterId && isVerified) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleIdentificationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,13 +76,24 @@ const VoterVerification = () => {
       console.log("OTP verification response:", response);
 
       if (response.success) {
-        // Store the voter ID in localStorage
+        // Store authentication data in localStorage
         localStorage.setItem('voterId', voterId);
+        localStorage.setItem('voter_verified', 'true');
         
+        // Set as verified and prepare for redirect
         setVerified(true);
-        // Wait a moment before navigating
+        setRedirecting(true);
+        
+        // Navigate to dashboard after a short delay
         setTimeout(() => {
-          navigate('/dashboard');
+          try {
+            navigate('/dashboard');
+          } catch (err) {
+            console.error("Navigation error:", err);
+            // If navigation fails, provide a manual link
+            setError('Automatic redirect failed. Please click the button below.');
+            setRedirecting(false);
+          }
         }, 1500);
       } else {
         setError(response.message || 'OTP verification failed. Please check your OTP and try again.');
@@ -93,6 +115,10 @@ const VoterVerification = () => {
     setStep('identification');
   };
 
+  const handleManualRedirect = () => {
+    navigate('/dashboard');
+  };
+
   if (verified) {
     return (
       <Card className="w-full max-w-md mx-auto border border-vote-neon shadow-[0_0_15px_rgba(57,255,20,0.3)]">
@@ -100,11 +126,17 @@ const VoterVerification = () => {
           <CardTitle className="text-vote-neon animate-glow">Verification Successful!</CardTitle>
           <CardDescription>You are now verified and can proceed to vote.</CardDescription>
         </CardHeader>
-        <CardContent className="flex justify-center">
-          <div className="w-8 h-8 border-4 border-vote-neon/20 border-t-vote-neon rounded-full animate-spin"></div>
+        <CardContent className="flex flex-col items-center justify-center">
+          {redirecting ? (
+            <div className="w-8 h-8 border-4 border-vote-neon/20 border-t-vote-neon rounded-full animate-spin"></div>
+          ) : (
+            <Button onClick={handleManualRedirect} variant="neon" className="mt-2">
+              Go to Dashboard
+            </Button>
+          )}
         </CardContent>
         <CardFooter className="text-center text-sm text-gray-400">
-          Redirecting to dashboard...
+          {redirecting ? 'Redirecting to dashboard...' : 'Click the button to go to the dashboard'}
         </CardFooter>
       </Card>
     );

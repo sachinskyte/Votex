@@ -152,4 +152,14 @@ The blockchain explorer (`routes/vote_routes.py` lines 193-376) visualizes these
 
 - **Merkle Tree**: O(log n) verification complexity makes it efficient for large numbers of votes
 - **Byzantine Consensus**: O(n²) complexity where n is the number of nodes (7 in our implementation)
-- **Proof of Work**: Simplified implementation with minimal difficulty for demonstration purposes 
+- **Proof of Work**: Simplified implementation with minimal difficulty for demonstration purposes
+
+## Future Algorithm Enhancements
+
+For increased security and functionality, the following algorithms could be implemented in future versions:
+
+1. **Digital Signature Algorithm (ECDSA)** - For vote authenticity and non-repudiation
+2. **Ballot Encryption (AES-256-GCM)** - For vote privacy protection
+3. **Rate Limiting Algorithm** - For denial of service prevention
+4. **Vote Tallying Algorithms** - For different election types (FPTP, Ranked Choice)
+5. **Bloom Filter Algorithm** - For efficient voter eligibility checking 
