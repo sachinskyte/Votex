@@ -12,12 +12,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Layout from '@/components/layout/Layout';
-import { ArrowLeft, Lock, BarChart2, Shield, Users, CheckCircle2, Database, RefreshCw, Settings, Link2, Network, Server, AlertCircle, Layers, CheckCircle } from 'lucide-react';
+import { 
+  ArrowLeft, Lock, BarChart2, Shield, Users, CheckCircle2, Database, RefreshCw, 
+  Settings, Link2, Network, Server, AlertCircle, Layers, CheckCircle, MapPin 
+} from 'lucide-react';
 import useDemoMode from '@/hooks/useDemoMode';
 import { useToast } from '@/hooks/use-toast';
 import BlockchainExplorer from '@/components/BlockchainExplorer';
 import { votingAPI } from '@/services/api';
 import blockchainService from '@/services/blockchainService';
+import IndiaMap from '@/components/admin/IndiaMap';
 
 interface AdminCredentials {
   id: string;
@@ -254,7 +258,7 @@ const Admin = () => {
     isValid: true,
     totalVotes: 0
   });
-  const [activeTab, setActiveTab] = useState<'results' | 'states' | 'blockchain'>('results');
+  const [activeTab, setActiveTab] = useState<'results' | 'states' | 'blockchain' | 'map'>('results');
   
   const loadResults = () => {
     setIsDataLoading(true);
@@ -685,9 +689,9 @@ const Admin = () => {
         </div>
         
         {/* Tab buttons */}
-        <div className="flex mb-4 border-b border-[#2D1B69]">
+        <div className="flex mb-4 border-b border-[#2D1B69] overflow-x-auto hide-scrollbar">
           <button
-            className={`py-2 px-4 font-medium ${
+            className={`py-2 px-4 font-medium flex-shrink-0 ${
               activeTab === 'results'
                 ? 'text-[#6D28D9] border-b-2 border-[#6D28D9]'
                 : 'text-gray-400 hover:text-gray-300'
@@ -697,7 +701,7 @@ const Admin = () => {
             Election Results
           </button>
           <button
-            className={`py-2 px-4 font-medium ${
+            className={`py-2 px-4 font-medium flex-shrink-0 ${
               activeTab === 'states'
                 ? 'text-[#6D28D9] border-b-2 border-[#6D28D9]'
                 : 'text-gray-400 hover:text-gray-300'
@@ -707,7 +711,7 @@ const Admin = () => {
             State-wise Data
           </button>
           <button
-            className={`py-2 px-4 font-medium ${
+            className={`py-2 px-4 font-medium flex-shrink-0 ${
               activeTab === 'blockchain'
                 ? 'text-[#6D28D9] border-b-2 border-[#6D28D9]'
                 : 'text-gray-400 hover:text-gray-300'
@@ -717,6 +721,19 @@ const Admin = () => {
             <span className="flex items-center gap-1">
               <Layers className="h-4 w-4" />
               Blockchain
+            </span>
+          </button>
+          <button
+            className={`py-2 px-4 font-medium flex-shrink-0 ${
+              activeTab === 'map'
+                ? 'text-[#6D28D9] border-b-2 border-[#6D28D9]'
+                : 'text-gray-400 hover:text-gray-300'
+            }`}
+            onClick={() => setActiveTab('map')}
+          >
+            <span className="flex items-center gap-1">
+              <MapPin className="h-4 w-4" />
+              India Map
             </span>
           </button>
         </div>
@@ -861,6 +878,22 @@ const Admin = () => {
               />
             )
           )}
+
+          {activeTab === 'map' && (
+            <Card className="border border-[#6D28D9]/30 bg-[#0D0D0D]">
+              <CardHeader>
+                <CardTitle className="text-[#6D28D9]">India Voting Map</CardTitle>
+                <CardDescription>Interactive geographical distribution of votes across India</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isDataLoading ? (
+                  <div className="h-[500px] bg-[#15121E] rounded animate-pulse"></div>
+                ) : (
+                  <IndiaMap />
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
         
         {!isDemoMode && showingSimulatedData && !isAPIConnected && (
@@ -891,4 +924,4 @@ const Admin = () => {
   );
 };
 
-export default Admin; 
+export default Admin;

@@ -58,7 +58,11 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [voterId, setVoterId] = useState<string>("VOTER-2025-XXXX789");
   const [pastVotes, setPastVotes] = useState<any[]>([]);
-  const [voteStatus, setVoteStatus] = useState({ voted: false, election_id: null });
+  // Fixed type definition here to match what we're setting
+  const [voteStatus, setVoteStatus] = useState<{ voted: boolean; election_id: any | null }>({ 
+    voted: false, 
+    election_id: null 
+  });
   const [loading, setLoading] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
   
@@ -129,7 +133,11 @@ const Dashboard = () => {
         const storedVoteStatus = localStorage.getItem('vote-status');
         if (storedVoteStatus) {
           const parsedStatus = JSON.parse(storedVoteStatus);
-          setVoteStatus(parsedStatus);
+          // Ensure election_id is always present, even if null
+          setVoteStatus({
+            voted: parsedStatus.voted,
+            election_id: parsedStatus.election_id !== undefined ? parsedStatus.election_id : null
+          });
           setHasVoted(parsedStatus.voted);
           setLoading(false);
           return;
@@ -138,7 +146,11 @@ const Dashboard = () => {
         // If not in localStorage, try the API
         const response = await votingAPI.getStatus(voterId);
         if (response.success && response.data?.status) {
-          setVoteStatus(response.data.status);
+          // Ensure election_id is always present, even if null
+          setVoteStatus({
+            voted: response.data.status.voted,
+            election_id: response.data.status.election_id !== undefined ? response.data.status.election_id : null
+          });
           setHasVoted(response.data.status.voted);
         }
       } catch (error) {
