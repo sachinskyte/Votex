@@ -3,8 +3,8 @@
 <div align="center">
   <h1>VoteX</h1>
   <p><strong>Secure Blockchain Voting for Indian General Elections 2025</strong></p>
-  
- 
+</div>
+
 ## Overview
 
 VoteX is a cutting-edge blockchain-based voting platform designed for the Indian General Elections 2025. It ensures a transparent, secure, and accessible voting process that protects voter identity while making every vote count. Using zero-knowledge proofs and advanced cryptography, VoteX maintains complete voter privacy while providing full election transparency and verifiability.
@@ -122,6 +122,8 @@ We welcome contributions from developers interested in blockchain voting technol
 - Include detailed comments for cryptographic implementations
 - Ensure all cryptographic protocols maintain vote privacy
 - Test thoroughly for security vulnerabilities
+
+---
 
 <div align="center">
   <p>© 2025 VoteX - Election Commission of India. All rights reserved.</p>
